@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+
+import 'app_constant.dart';
+
+
+extension BuildContextX on BuildContext {
+  Size get screenSize => MediaQuery.of(this).size;
+  double? get iconSize => IconTheme.of(this).size;
+  EdgeInsets get padding => MediaQuery.of(this).padding;
+  double responsive(double size, {Axis axis = Axis.vertical}) {
+    final currentSize = axis == Axis.horizontal ? screenSize.width : screenSize.height;
+    final designSize = axis == Axis.horizontal
+        ? AppConstants.designScreenSize.width
+        : AppConstants.designScreenSize.height;
+    return size * currentSize / designSize;
+  }
+}
+
+
+double getTextWidth(String text, TextStyle style) {
+  TextPainter textPainter = TextPainter()
+    ..text = TextSpan(text: text, style: style)
+    ..textDirection = TextDirection.ltr
+    ..layout(minWidth: 0, maxWidth: double.infinity);
+  return textPainter.size.width;
+}
